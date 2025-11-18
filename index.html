@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Product | REVOC Marketplace</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #3498db;
+            --primary-dark: #2980b9;
+            --secondary: #1a1a2e;
+            --secondary-light: #2d3047;
+            --light-gray: #f8f9fa;
+            --medium-gray: #dee2e6;
+            --dark-gray: #6c757d;
+            --text: #212529;
+            --white: #FFFFFF;
+            --shadow: 0 2px 16px rgba(0, 0, 0, 0.15);
+            --success: #27ae60;
+            --warning: #e74c3c;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: var(--secondary);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        .logo h1 {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--white);
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 20px;
+            transition: background-color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            background-color: var(--secondary-light);
+        }
+
+        .nav-links a.active {
+            background-color: var(--primary);
+        }
+
+        /* Page Header */
+        .page-header {
+            background: linear-gradient(rgba(26, 26, 46, 0.9), rgba(26, 26, 46, 0.9)), url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 60px 0;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-header h1 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .page-header p {
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Form Styles */
+        .upload-form-container {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 50px;
+        }
+
+        .form-header {
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .form-header h2 {
+            font-size: 24px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-header h2 i {
+            color: var(--primary);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            flex: 1;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--secondary);
+        }
+
+        .form-group input, 
+        .form-group textarea, 
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-group input:focus, 
+        .form-group textarea:focus, 
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-group.full-width {
+            width: 100%;
+        }
+
+        .keywords-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .keyword-tag {
+            background-color: var(--light-gray);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .keyword-tag i {
+            cursor: pointer;
+            color: var(--dark-gray);
+        }
+
+        .keyword-tag i:hover {
+            color: var(--warning);
+        }
+
+        .add-keyword {
+            display: flex;
+            gap: 10px;
+        }
+
+        .add-keyword input {
+            flex: 1;
+        }
+
+        .add-keyword button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0 15px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .add-keyword button:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .image-preview {
+            margin-top: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            max-width: 300px;
+            display: none;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid var(--medium-gray);
+        }
+
+        .submit-btn {
+            background-color: var(--success);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .submit-btn:hover {
+            background-color: #219653;
+        }
+
+        .submit-btn:disabled {
+            background-color: var(--dark-gray);
+            cursor: not-allowed;
+        }
+
+        .reset-btn {
+            background-color: var(--medium-gray);
+            color: var(--text);
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .reset-btn:hover {
+            background-color: var(--dark-gray);
+            color: var(--white);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 3000;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .notification.success {
+            background-color: var(--success);
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .notification.error {
+            background-color: var(--warning);
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Product Preview */
+        .preview-section {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 50px;
+        }
+
+        .preview-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .preview-header h2 {
+            font-size: 24px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .preview-header h2 i {
+            color: var(--primary);
+        }
+
+        .preview-container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .preview-card {
+            background-color: var(--light-gray);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            width: 280px;
+        }
+
+        .preview-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            background-color: var(--medium-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-gray);
+        }
+
+        .preview-info {
+            padding: 15px;
+        }
+
+        .preview-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .preview-description {
+            font-size: 14px;
+            color: var(--dark-gray);
+            margin-bottom: 10px;
+            min-height: 40px;
+        }
+
+        .preview-price {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .preview-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: var(--dark-gray);
+        }
+
+        .preview-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .preview-rating i {
+            color: var(--primary);
+        }
+
+        /* Bot Configuration Section */
+        .bot-config {
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 50px;
+        }
+
+        .bot-config-header {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--medium-gray);
+        }
+
+        .bot-config-header h2 {
+            font-size: 24px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bot-config-header h2 i {
+            color: var(--primary);
+        }
+
+        .bot-config p {
+            margin-bottom: 20px;
+            color: var(--dark-gray);
+        }
+
+        .bot-config-form {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .bot-config-input {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .bot-config-input label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--secondary);
+        }
+
+        .bot-config-input input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--medium-gray);
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .save-bot-config {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            align-self: flex-end;
+            height: fit-content;
+        }
+
+        .save-bot-config:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--secondary);
+            color: var(--white);
+            padding: 40px 0;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+        }
+
+        .footer-column h3 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column ul li a {
+            color: #b0b0b0;
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s ease;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--white);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid #444;
+            font-size: 14px;
+            color: #b0b0b0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .preview-container {
+                justify-content: center;
+            }
+
+            .bot-config-form {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links {
+                flex-wrap: wrap;
+            }
+
+            .upload-form-container,
+            .preview-section,
+            .bot-config {
+                padding: 20px;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-container">
+                <div class="logo">
+                    <div class="logo-img">R</div>
+                    <h1>REVOC <span>Marketplace</span></h1>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html"><i class="fas fa-home"></i> Marketplace</a>
+                    <a href="upload.html" class="active"><i class="fas fa-plus-circle"></i> Add Product</a>
+                    <a href="#"><i class="fas fa-box"></i> My Products</a>
+                    <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1>Add New Product</h1>
+            <p>List your products on REVOC Marketplace to reach thousands of potential customers</p>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Bot Configuration -->
+        <section class="bot-config">
+            <div class="bot-config-header">
+                <h2><i class="fas fa-robot"></i> Telegram Bot Configuration</h2>
+            </div>
+            <p>Configure your Telegram bot to receive product notifications. You'll need to create a bot via @BotFather and get your chat ID.</p>
+            <div class="bot-config-form">
+                <div class="bot-config-input">
+                    <label for="bot-token">Bot Token</label>
+                    <input type="text" id="bot-token" placeholder="Enter your bot token">
+                </div>
+                <div class="bot-config-input">
+                    <label for="chat-id">Chat ID</label>
+                    <input type="text" id="chat-id" placeholder="Enter your chat ID">
+                </div>
+                <button class="save-bot-config" id="save-bot-config">
+                    <i class="fas fa-save"></i> Save Configuration
+                </button>
+            </div>
+        </section>
+
+        <!-- Upload Form -->
+        <section class="upload-form-container">
+            <div class="form-header">
+                <h2><i class="fas fa-upload"></i> Product Information</h2>
+            </div>
+            <form id="product-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="product-title">Product Title *</label>
+                        <input type="text" id="product-title" name="title" required placeholder="Enter product title">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-category">Category *</label>
+                        <select id="product-category" name="category" required>
+                            <option value="">Select a category</option>
+                            <option value="bedding">Bedding</option>
+                            <option value="kitchen">Kitchen</option>
+                            <option value="furniture">Furniture</option>
+                            <option value="bathroom">Bathroom</option>
+                            <option value="lighting">Lighting</option>
+                            <option value="tools">Tools</option>
+                            <option value="decor">Decor</option>
+                            <option value="electronics">Electronics</option>
+                            <option value="storage">Storage</option>
+                            <option value="cleaning">Cleaning</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="product-description">Description *</label>
+                    <textarea id="product-description" name="description" required placeholder="Describe your product in detail"></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="product-price">Price (₹) *</label>
+                        <input type="number" id="product-price" name="price" min="0" step="0.01" required placeholder="0.00">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-rating">Rating</label>
+                        <input type="number" id="product-rating" name="rating" min="0" max="5" step="0.1" placeholder="4.5">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="product-image">Image URL *</label>
+                    <input type="url" id="product-image" name="image" required placeholder="https://example.com/image.jpg">
+                    <div class="image-preview" id="image-preview">
+                        <img src="" alt="Product preview" id="preview-img">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Keywords</label>
+                    <div class="keywords-container" id="keywords-container">
+                        <!-- Keywords will be added here dynamically -->
+                    </div>
+                    <div class="add-keyword">
+                        <input type="text" id="new-keyword" placeholder="Add a keyword">
+                        <button type="button" id="add-keyword-btn"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="submit-btn" id="submit-product">
+                        <i class="fas fa-save"></i> Save Product
+                    </button>
+                    <button type="button" class="reset-btn" id="reset-form">
+                        <i class="fas fa-redo"></i> Reset Form
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Product Preview -->
+        <section class="preview-section">
+            <div class="preview-header">
+                <h2><i class="fas fa-eye"></i> Product Preview</h2>
+            </div>
+            <div class="preview-container">
+                <div class="preview-card">
+                    <div class="preview-image" id="preview-image-placeholder">
+                        <i class="fas fa-image fa-3x"></i>
+                    </div>
+                    <div class="preview-info">
+                        <div class="preview-title" id="preview-title">Product Title</div>
+                        <div class="preview-description" id="preview-description">Product description will appear here</div>
+                        <div class="preview-price" id="preview-price">₹0.00</div>
+                        <div class="preview-meta">
+                            <div class="preview-rating">
+                                <i class="fas fa-star"></i>
+                                <span id="preview-rating">0.0</span>
+                            </div>
+                            <div class="preview-category" id="preview-category">Category</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="https://shsss-org.github.io/contact_us/">Contact Us</a></li>
+                        <li><a href="#">Product Returns</a></li>
+                        <li><a href="#">Shipping Info</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="https://shsss-org.github.io/about_us/">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Connect</h3>
+                    <ul>
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Instagram</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Newsletter</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>REVOC Marketplace</h3>
+                    <ul>
+                        <li><a href="#">For Hosts</a></li>
+                        <li><a href="#">Gift Cards</a></li>
+                        <li><a href="#">Business Program</a></li>
+                        <li><a href="#">Community</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 REVOC Marketplace. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Telegram Bot Configuration
+        let TELEGRAM_BOT_TOKEN = '';
+        let TELEGRAM_CHAT_ID = '';
+
+        // DOM Elements
+        const productForm = document.getElementById('product-form');
+        const resetFormBtn = document.getElementById('reset-form');
+        const submitProductBtn = document.getElementById('submit-product');
+        const imageInput = document.getElementById('product-image');
+        const imagePreview = document.getElementById('image-preview');
+        const previewImg = document.getElementById('preview-img');
+        const previewImagePlaceholder = document.getElementById('preview-image-placeholder');
+        const newKeywordInput = document.getElementById('new-keyword');
+        const addKeywordBtn = document.getElementById('add-keyword-btn');
+        const keywordsContainer = document.getElementById('keywords-container');
+        const notification = document.getElementById('notification');
+        const botTokenInput = document.getElementById('bot-token');
+        const chatIdInput = document.getElementById('chat-id');
+        const saveBotConfigBtn = document.getElementById('save-bot-config');
+
+        // Preview elements
+        const previewTitle = document.getElementById('preview-title');
+        const previewDescription = document.getElementById('preview-description');
+        const previewPrice = document.getElementById('preview-price');
+        const previewRating = document.getElementById('preview-rating');
+        const previewCategory = document.getElementById('preview-category');
+
+        // Store keywords
+        let keywords = [];
+
+        // Function to show notification
+        function showNotification(message, type = 'success') {
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            
+            setTimeout(() => {
+                notification.className = 'notification';
+            }, 3000);
+        }
+
+        // Function to update product preview
+        function updatePreview() {
+            const title = document.getElementById('product-title').value || 'Product Title';
+            const description = document.getElementById('product-description').value || 'Product description will appear here';
+            const price = document.getElementById('product-price').value || '0.00';
+            const rating = document.getElementById('product-rating').value || '0.0';
+            const category = document.getElementById('product-category').value || 'Category';
+            
+            previewTitle.textContent = title;
+            previewDescription.textContent = description;
+            previewPrice.textContent = `₹${parseFloat(price).toFixed(2)}`;
+            previewRating.textContent = rating;
+            previewCategory.textContent = category;
+        }
+
+        // Function to update image preview
+        function updateImagePreview() {
+            const imageUrl = imageInput.value;
+            
+            if (imageUrl) {
+                previewImg.src = imageUrl;
+                imagePreview.style.display = 'block';
+                previewImagePlaceholder.style.display = 'none';
+                
+                // Check if image loads successfully
+                previewImg.onload = function() {
+                    imagePreview.style.display = 'block';
+                    previewImagePlaceholder.style.display = 'none';
+                };
+                
+                previewImg.onerror = function() {
+                    imagePreview.style.display = 'none';
+                    previewImagePlaceholder.style.display = 'flex';
+                    showNotification('Failed to load image from the provided URL', 'error');
+                };
+            } else {
+                imagePreview.style.display = 'none';
+                previewImagePlaceholder.style.display = 'flex';
+            }
+        }
+
+        // Function to add keyword
+        function addKeyword() {
+            const keyword = newKeywordInput.value.trim();
+            
+            if (keyword && !keywords.includes(keyword)) {
+                keywords.push(keyword);
+                renderKeywords();
+                newKeywordInput.value = '';
+            } else if (keywords.includes(keyword)) {
+                showNotification('Keyword already added', 'error');
+            }
+        }
+
+        // Function to remove keyword
+        function removeKeyword(index) {
+            keywords.splice(index, 1);
+            renderKeywords();
+        }
+
+        // Function to render keywords
+        function renderKeywords() {
+            keywordsContainer.innerHTML = '';
+            
+            keywords.forEach((keyword, index) => {
+                const keywordElement = document.createElement('div');
+                keywordElement.className = 'keyword-tag';
+                keywordElement.innerHTML = `
+                    ${keyword}
+                    <i class="fas fa-times" onclick="removeKeyword(${index})"></i>
+                `;
+                keywordsContainer.appendChild(keywordElement);
+            });
+        }
+
+        // Function to reset form
+        function resetForm() {
+            productForm.reset();
+            keywords = [];
+            renderKeywords();
+            updatePreview();
+            updateImagePreview();
+            showNotification('Form has been reset', 'success');
+        }
+
+        // Function to generate a unique ID
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        // Function to save bot configuration
+        function saveBotConfig() {
+            const botToken = botTokenInput.value.trim();
+            const chatId = chatIdInput.value.trim();
+            
+            if (!botToken || !chatId) {
+                showNotification('Please enter both bot token and chat ID', 'error');
+                return;
+            }
+            
+            TELEGRAM_BOT_TOKEN = botToken;
+            TELEGRAM_CHAT_ID = chatId;
+            
+            // Save to localStorage
+            localStorage.setItem('revoc-bot-token', botToken);
+            localStorage.setItem('revoc-chat-id', chatId);
+            
+            showNotification('Bot configuration saved successfully!', 'success');
+        }
+
+        // Function to load bot configuration
+        function loadBotConfig() {
+            const savedToken = localStorage.getItem('revoc-bot-token');
+            const savedChatId = localStorage.getItem('revoc-chat-id');
+            
+            if (savedToken && savedChatId) {
+                TELEGRAM_BOT_TOKEN = savedToken;
+                TELEGRAM_CHAT_ID = savedChatId;
+                botTokenInput.value = savedToken;
+                chatIdInput.value = savedChatId;
+            }
+        }
+
+        // Function to send product to Telegram
+        async function sendProductToTelegram(productData) {
+            if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+                throw new Error('Telegram bot not configured. Please set up your bot token and chat ID.');
+            }
+            
+            // Format the product message
+            let message = `🆕 *NEW PRODUCT ADDED* 🆕\n\n`;
+            message += `*${productData.title}*\n\n`;
+            message += `*Description:* ${productData.description}\n`;
+            message += `*Category:* ${productData.category}\n`;
+            message += `*Price:* ₹${productData.price.toFixed(2)}\n`;
+            
+            if (productData.rating > 0) {
+                message += `*Rating:* ${productData.rating}/5\n`;
+            }
+            
+            if (productData.keywords && productData.keywords.length > 0) {
+                message += `*Keywords:* ${productData.keywords.join(', ')}\n`;
+            }
+            
+            message += `\n*Image:* ${productData.image}\n\n`;
+            message += `_Product ID: ${productData.id}_`;
+            
+            // Send to Telegram
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown'
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (!result.ok) {
+                    throw new Error(result.description || 'Failed to send message to Telegram');
+                }
+                
+                return true;
+            } catch (error) {
+                console.error('Error sending message to Telegram:', error);
+                throw error;
+            }
+        }
+
+        // Function to save product to localStorage (simulating database storage)
+        function saveProduct(productData) {
+            // Get existing products from localStorage
+            const existingProducts = JSON.parse(localStorage.getItem('revoc-products') || '[]');
+            
+            // Add new product with ID
+            productData.id = generateId();
+            existingProducts.push(productData);
+            
+            // Save back to localStorage
+            localStorage.setItem('revoc-products', JSON.stringify(existingProducts));
+            
+            return productData.id;
+        }
+
+        // Initialize the page when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved bot configuration
+            loadBotConfig();
+            
+            // Add event listeners for real-time preview updates
+            document.getElementById('product-title').addEventListener('input', updatePreview);
+            document.getElementById('product-description').addEventListener('input', updatePreview);
+            document.getElementById('product-price').addEventListener('input', updatePreview);
+            document.getElementById('product-rating').addEventListener('input', updatePreview);
+            document.getElementById('product-category').addEventListener('change', updatePreview);
+            
+            // Image preview
+            imageInput.addEventListener('input', updateImagePreview);
+            
+            // Keywords
+            addKeywordBtn.addEventListener('click', addKeyword);
+            newKeywordInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addKeyword();
+                }
+            });
+            
+            // Form reset
+            resetFormBtn.addEventListener('click', resetForm);
+            
+            // Bot configuration
+            saveBotConfigBtn.addEventListener('click', saveBotConfig);
+            
+            // Form submission
+            productForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const formData = new FormData(productForm);
+                const productData = {
+                    title: formData.get('title'),
+                    description: formData.get('description'),
+                    price: parseFloat(formData.get('price')),
+                    rating: parseFloat(formData.get('rating') || 0),
+                    category: formData.get('category'),
+                    image: formData.get('image'),
+                    keywords: keywords
+                };
+                
+                // Validate required fields
+                if (!productData.title || !productData.description || !productData.price || !productData.category || !productData.image) {
+                    showNotification('Please fill in all required fields', 'error');
+                    return;
+                }
+                
+                // Disable submit button and show loading state
+                submitProductBtn.disabled = true;
+                submitProductBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+                
+                try {
+                    // Save product locally
+                    const productId = saveProduct(productData);
+                    
+                    // Send to Telegram
+                    await sendProductToTelegram({...productData, id: productId});
+                    
+                    // Show success message
+                    showNotification(`Product "${productData.title}" has been added and sent to Telegram!`, 'success');
+                    
+                    // Reset form
+                    resetForm();
+                } catch (error) {
+                    console.error('Error saving product:', error);
+                    showNotification(`Error: ${error.message}`, 'error');
+                } finally {
+                    // Re-enable submit button
+                    submitProductBtn.disabled = false;
+                    submitProductBtn.innerHTML = '<i class="fas fa-save"></i> Save Product';
+                }
+            });
+            
+            // Initialize preview
+            updatePreview();
+        });
+    </script>
+</body>
+</html>
